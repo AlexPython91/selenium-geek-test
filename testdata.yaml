@@ -1,0 +1,9 @@
+address: https://test-stand.gb.ru
+browser: chrome
+sleep_time: 5
+time_wait: 1
+login: ivanivanov697
+password: bb5e16295e
+title_post: New title for test
+descr_post: Post Description
+content_post: This field is for post content - content
