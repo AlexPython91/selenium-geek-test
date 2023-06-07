@@ -4,8 +4,8 @@ import logging
 
 
 class TestSearchLocators:
-    LOCATOR_LOGIN_FILED = (By.XPATH, """//*[@id="login"]/div[1]/label/input""")
-    LOCATOR_PASS_FILED = (By.XPATH, """//*[@id="login"]/div[2]/label/input""")
+    LOCATOR_LOGIN_FIELD = (By.XPATH, """//*[@id="login"]/div[1]/label/input""")
+    LOCATOR_PASS_FIELD = (By.XPATH, """//*[@id="login"]/div[2]/label/input""")
     LOCATOR_LOGIN_BTN = (By.CSS_SELECTOR, "button")
     LOCATOR_ERROR_FIELD = (By.XPATH, """//*[@id="app"]/main/div/div/div[2]/h2""")
 
@@ -13,13 +13,13 @@ class TestSearchLocators:
 class OperationsHelper(BasePage):
     def enter_login(self, word):
         logging.info(f"Sent {word} to element {TestSearchLocators.LOCATOR_LOGIN_FIELD[1]}")
-        login_field = self.find_element(TestSearchLocators.LOCATOR_LOGIN_FILED)
+        login_field = self.find_element(TestSearchLocators.LOCATOR_LOGIN_FIELD)
         login_field.clear()
         login_field.send_keys(word)
 
     def enter_pass(self, word):
         logging.info(f"Sent {word} to element {TestSearchLocators.LOCATOR_PASS_FIELD[1]}")
-        pass_field = self.find_element(TestSearchLocators.LOCATOR_PASS_FILED)
+        pass_field = self.find_element(TestSearchLocators.LOCATOR_PASS_FIELD)
         pass_field.clear()
         pass_field.send_keys(word)
 
