@@ -23,7 +23,7 @@ class OperationsHelper(BasePage):
         pass_field.clear()
         pass_field.send_keys(word)
 
-    def clic_login_btn(self):
+    def click_login_btn(self):
         logging.info("Clicked on button")
         self.find_element(TestSearchLocators.LOCATOR_LOGIN_BTN).click()
 
