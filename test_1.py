@@ -39,5 +39,5 @@ def test_step4(browser, alert_text):
     testpage.input_form_email("test@email.ru")
     testpage.input_form_content("Enter your content")
     testpage.contact_us_btn()
-    time.sleep(3)
-    assert testpage.check_alert_text() == alert_text
+    time.sleep(5)
+    assert testpage.get_alert_text() == alert_text
