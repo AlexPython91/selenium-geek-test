@@ -4,6 +4,7 @@ from BaseApp import BasePage
 from selenium.webdriver.common.by import By
 import logging
 import yaml
+import requests
 
 
 class TestSearchLocators:
@@ -14,6 +15,10 @@ class TestSearchLocators:
         locators_dict[locator] = (By.XPATH, locators["xpath"][locator])
     for locator in locators["css"].keys():
         locators_dict[locator] = (By.CSS_SELECTOR, locators["css"][locator])
+
+
+with open("testdata.yaml") as f2:
+    user_set = yaml.safe_load(f2)
 
 
 class OperationsHelper(BasePage):
@@ -89,6 +94,18 @@ class OperationsHelper(BasePage):
         self.enter_text_into_field(TestSearchLocators.locators_dict["LOCATOR_FORM_CONTENT_INPUT"], word,
                                    description="Content in form")
 
+    def input_title_new_post(self, word):
+        self.enter_text_into_field(TestSearchLocators.locators_dict["LOCATOR_TITLE_NEW_POST"], word,
+                                   description="Title in new post")
+
+    def input_description_new_post(self, word):
+        self.enter_text_into_field(TestSearchLocators.locators_dict["LOCATOR_DESCRIPTION_NEW_POST"], word,
+                                   description="Description in new post")
+
+    def input_content_new_post(self, word):
+        self.enter_text_into_field(TestSearchLocators.locators_dict["LOCATOR_CONTENT_NEW_POST"], word,
+                                   description="Content in new post")
+
     # Clicked to button methods
     def click_login_button(self):
         self.click_button(TestSearchLocators.locators_dict["LOCATOR_LOGIN_BTN"], description="Click login button")
@@ -99,6 +116,13 @@ class OperationsHelper(BasePage):
     def contact_us_btn(self):
         self.click_button(TestSearchLocators.locators_dict["LOCATOR_BTN_CONTACT_US"],
                           description="Click contact us button")
+
+    def new_post_btn(self):
+        self.click_button(TestSearchLocators.locators_dict["LOCATOR_NEW_POST_BTN"], description="Click new post button")
+
+    def button_save_new_post(self):
+        self.click_button(TestSearchLocators.locators_dict["LOCATOR_BTN_NEW_POST"],
+                          description="Click save new post button")
 
     # Methods for getting text
     def get_error_text(self):
@@ -117,3 +141,41 @@ class OperationsHelper(BasePage):
         alert_text = self.driver.switch_to.alert.text
         logging.info(alert_text)
         return alert_text
+
+    def get_new_post(self):
+        return self.get_text_from_element(TestSearchLocators.locators_dict["LOCATOR_TITLE_POST"],
+                                          description="Checking open form for create new post")
+
+    def get_not_me_posts(self, token):
+        try:
+            response = requests.get(user_set['posts'], headers={'X-Auth-Token': token},
+                                    params={'owner': 'notMe', 'page': 1})
+            listTitle = []
+            for i in response.json()['data']:
+                listTitle.append(i['title'])
+            return listTitle
+        except:
+            logging.error('Dont get list not me posts')
+            return None
+
+    def create_new_post(self, token):
+        try:
+            response = requests.post(user_set['posts'], headers={'X-Auth-Token': token},
+                                     params={'title_post': user_set['title_post'],
+                                             'descr_post': user_set['descr_post'],
+                                             'content_post': user_set['content_post']})
+            return response.json()
+        except:
+            logging.error('Error. Dont create new post')
+            return None
+
+    def get_my_posts(self, token):
+        try:
+            response = requests.get(user_set['post'], headers={'X-Auth-Token': token})
+            listDescription = []
+            for i in response.json()['data']:
+                listDescription.append(i['description'])
+            return listDescription
+        except:
+            logging.error('Error. Dont get list my posts')
+            return None
