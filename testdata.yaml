@@ -7,3 +7,9 @@ password: bb5e16295e
 title_post: New title for test
 descr_post: Post Description
 content_post: This field is for post content - content
+name_user: Your name
+email_user: test@email.ru
+content_user: Enter your content
+url: https://test-stand.gb.ru/gateway/login
+posts: https://test-stand.gb.ru/gateway/posts
+post: https://test-stand.gb.ru/api/posts
